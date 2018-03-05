@@ -1,4 +1,3 @@
 README.md
-tsconfig.json
 jest.config.json
-__tests__
+test/

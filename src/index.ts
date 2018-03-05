@@ -1,16 +1,16 @@
-type Callback = (...args: any[]) => void
+export type Callback = (...args: any[]) => void
 
 // just alias it for nicer type hints
-type UnsubscribeFunction = VoidFunction
+export type UnsubscribeFunction = VoidFunction
 
 // minimal representation of an event emitter
-interface ITarget {
+export interface ITarget {
   addEventListener(type: string, listener: any): void
   removeEventListener(type: string, listener: any): void
 }
 
 // The "Promise executor" function, copied from the DOM types lib
-type Executor<T> = (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void
+export type Executor<T> = (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void
 
 
 

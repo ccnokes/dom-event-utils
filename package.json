@@ -1,6 +1,6 @@
 {
   "name": "dom-event-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Very small library that makes working with DOM event emitters API a little easier to work with",
   "main": "dist/index.js",
   "scripts": {
