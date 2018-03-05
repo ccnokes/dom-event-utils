@@ -14,12 +14,10 @@
   ],
   "author": "Cameron Nokes",
   "license": "MIT",
-  "dependencies": {
-    "typescript": "^2.7.2"
-  },
   "devDependencies": {
     "@types/jest": "^22.1.4",
     "jest": "^22.4.2",
-    "ts-jest": "^22.4.1"
+    "ts-jest": "^22.4.1",
+    "typescript": "^2.7.2"
   }
 }
