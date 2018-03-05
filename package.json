@@ -1,0 +1,25 @@
+{
+  "name": "dom-event-utils",
+  "version": "1.0.0",
+  "description": "Very small library that makes working with DOM event emitters API a little easier to work with",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --config=jest.config.json"
+  },
+  "keywords": [
+    "events",
+    "eventemitter",
+    "util"
+  ],
+  "author": "Cameron Nokes",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.1.4",
+    "jest": "^22.4.2",
+    "ts-jest": "^22.4.1"
+  }
+}
