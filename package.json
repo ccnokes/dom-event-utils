@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --config=jest.config.json"
+    "test": "jest --config=jest.config.json",
+    "prepublish": "npm test"
   },
   "keywords": [
     "events",
