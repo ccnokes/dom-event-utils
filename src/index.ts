@@ -1,12 +1,13 @@
 export type Callback = (...args: any[]) => void
 
-// just alias it for nicer type hints
-export type UnsubscribeFunction = VoidFunction
-
-// minimal representation of an event emitter
-export interface ITarget {
-  addEventListener(type: string, listener: any): void
-  removeEventListener(type: string, listener: any): void
+// minimal representation of methods we need from an event emitter
+export interface IEmitter {
+  addEventListener?(type: string, listener: any): void
+  removeEventListener?(type: string, listener: any): void
+  addListener?(type: string, listener: any): void
+  removeListener?(type: string, listener: any): void
+  on?(type: string, listener: any): void
+  off?(type: string, listener: any): void
 }
 
 // The "Promise executor" function, copied from the DOM types lib
@@ -39,7 +40,7 @@ function makeTimedOrNormalPromise<T>(fn: Executor<T>, timeout?: number) {
   }
 }
 
-export function eventToPromise<T>(target: ITarget, eventName: string, fn: Callback, timeout?: number): Promise<T> {
+export function eventToPromise<T>(target: IEmitter, eventName: string, fn: Callback, timeout?: number): Promise<T> {
   return makeTimedOrNormalPromise<T>((resolve) => {
     once(target, eventName, (...args) => {
       const ret = fn.apply(null, args);
@@ -52,17 +53,48 @@ export function eventToPromise<T>(target: ITarget, eventName: string, fn: Callba
   }, timeout);
 }
 
-export function on(target: ITarget, eventName: string, fn: Callback): UnsubscribeFunction {
-  target.addEventListener(eventName, fn);
+export function on(target: IEmitter, eventName: string, fn: Callback): VoidFunction {
+  callOn(target, eventName, fn);
   return () => {
-    target.removeEventListener(eventName, fn);
+    callOff(target, eventName, fn);
   };
 }
 
-export function once(target: ITarget, eventName: string, fn: Callback): UnsubscribeFunction {
+export function once(target: IEmitter, eventName: string, fn: Callback): VoidFunction {
   const off = on(target, eventName, (...args) => {
     fn.apply(null, args);
     off();
   });
   return off;
+}
+
+// adapt eventemitter3 and node.js style event emitters too
+function callOn(target: IEmitter, eventName: string, fn: Callback) {
+  if (target.on) {
+    target.on(eventName, fn);
+  }
+  else if (target.addEventListener) {
+    target.addEventListener(eventName, fn);
+  }
+  else if (target.addListener) {
+    target.addListener(eventName, fn);
+  }
+  else {
+    throw new TypeError(`Cannot find "on"-like method on event emitter, emitting event "${eventName}"`);
+  }
+}
+
+function callOff(target: IEmitter, eventName: string, fn: Callback) {
+  if (target.off) {
+    target.off(eventName, fn);
+  }
+  else if (target.removeEventListener) {
+    target.removeEventListener(eventName, fn);
+  }
+  else if (target.removeListener) {
+    target.removeListener(eventName, fn);
+  }
+  else {
+    throw new TypeError(`Cannot find "off"-like method on event emitter, emitting event "${eventName}"`);
+  }
 }

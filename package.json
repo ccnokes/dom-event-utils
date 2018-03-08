@@ -1,6 +1,6 @@
 {
   "name": "dom-event-utils",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Very small library that makes working with DOM event emitters API a little easier to work with",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,6 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^22.1.4",
+    "@types/node": "^9.4.6",
     "jest": "^22.4.2",
     "ts-jest": "^22.4.1",
     "typescript": "^2.7.2"

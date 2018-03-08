@@ -1,4 +1,5 @@
 import { eventToPromise, on, once } from '../src/index';
+import { EventEmitter } from 'events';
 
 class FakeDOMEventEmitter {
   private listeners: any[] = [];
@@ -94,4 +95,19 @@ test('#eventToPromise again', () => {
     expect(called1).toEqual(true);
     expect(domThing.listenerCount()).toEqual(0);
   });
+});
+
+test('node.js EventEmitter compatibility', () => {
+  const emitter = new EventEmitter();
+  let called1 = false;
+
+  const off = on(emitter, 'test', () => {
+    called1 = true;
+  });
+
+  expect(emitter.listenerCount('test')).toEqual(1);
+  emitter.emit('test');
+  expect(called1).toEqual(true);
+  off();
+  expect(emitter.listenerCount('test')).toEqual(0);
 });
