@@ -42,8 +42,12 @@ function makeTimedOrNormalPromise<T>(fn: Executor<T>, timeout?: number) {
 export function eventToPromise<T>(target: ITarget, eventName: string, fn: Callback, timeout?: number): Promise<T> {
   return makeTimedOrNormalPromise<T>((resolve) => {
     once(target, eventName, (...args) => {
-      fn.apply(null, args);
-      resolve();
+      const ret = fn.apply(null, args);
+      if (ret && ret.then) {
+        return ret.then(resolve);
+      } else {
+        resolve();
+      }
     });
   }, timeout);
 }

@@ -70,3 +70,28 @@ test('#eventToPromise', () => {
     expect(domThing.listenerCount()).toEqual(0);
   });
 });
+
+test('#eventToPromise again', () => {
+  const domThing = new FakeDOMEventEmitter();
+  let called1 = false;
+
+  const promise = eventToPromise(domThing, 'test', () => {
+    return new Promise(res => {
+      setTimeout(() => {
+        called1 = true;
+        res();
+      }, 2);
+    })
+  });
+
+  expect(domThing.listenerCount()).toEqual(1);
+
+  setImmediate(() => {
+    domThing.emit('test');
+  });
+
+  return promise.then(() => {
+    expect(called1).toEqual(true);
+    expect(domThing.listenerCount()).toEqual(0);
+  });
+});

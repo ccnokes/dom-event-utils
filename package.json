@@ -1,8 +1,9 @@
 {
   "name": "dom-event-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Very small library that makes working with DOM event emitters API a little easier to work with",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest --config=jest.config.json"
